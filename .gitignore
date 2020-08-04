@@ -1,0 +1,5 @@
+/build/
+/.gradle/
+/.idea/
+/delaunator/build/
+/ui/build/
