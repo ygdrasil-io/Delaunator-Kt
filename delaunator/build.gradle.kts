@@ -1,9 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
+    id("org.jetbrains.kotlin.multiplatform") version "1.4.0"
 }
-
-group 'io.ygdrasil'
-version '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
