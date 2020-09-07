@@ -1,4 +1,4 @@
-package io.ygdrasil.delaunator.sampler
+package io.ygdrasil.delaunator.ui.sampler
 
 import io.ygdrasil.delaunator.domain.Point
 

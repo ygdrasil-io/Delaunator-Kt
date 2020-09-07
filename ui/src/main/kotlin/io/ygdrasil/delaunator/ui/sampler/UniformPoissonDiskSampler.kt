@@ -1,4 +1,4 @@
-package io.ygdrasil.delaunator.sampler
+package io.ygdrasil.delaunator.ui.sampler
 
 import io.ygdrasil.delaunator.domain.Point
 import kotlin.math.*
@@ -103,7 +103,7 @@ object UniformPoissonDiskSampler {
     }
 
     fun addFirstPoint(settings: Settings, state: State) {
-        var added = false;
+        var added = false
         while (!added) {
             var d = Random.nextDouble()
             val xr = settings.TopLeft.x + settings.Dimensions.x * d
@@ -133,11 +133,11 @@ object UniformPoissonDiskSampler {
     }
 
     fun addNextPoint(point: Point, settings: Settings, state: State): Boolean {
-        var found = false;
+        var found = false
         val q = generateRandomAround(
             point,
             settings.MinimumDistance
-        );
+        )
 
         if (q.x >= settings.TopLeft.x && q.x < settings.LowerRight.x &&
             q.y > settings.TopLeft.y && q.y < settings.LowerRight.y &&
@@ -149,8 +149,8 @@ object UniformPoissonDiskSampler {
                 q,
                 settings.TopLeft,
                 settings.CellSize
-            );
-            var tooClose = false;
+            )
+            var tooClose = false
 
             for (i in max(0, qIndex.x.toInt() - 2) until min(settings.GridWidth, qIndex.x.toInt() + 3)) {
                 for (j in max(0, qIndex.y.toInt() - 2) until min(settings.GridHeight, qIndex.y.toInt() + 3)) {
@@ -197,14 +197,14 @@ object UniformPoissonDiskSampler {
     }
 
     fun generateRandomAround(center: Point, minimumDistance: Double): Point {
-            var d = Random.nextDouble();
-            val radius = minimumDistance + minimumDistance * d;
+            var d = Random.nextDouble()
+            val radius = minimumDistance + minimumDistance * d
 
-            d = Random.nextDouble();
-            val angle = TwoPi * d;
+            d = Random.nextDouble()
+            val angle = TwoPi * d
 
-            val newX = radius * sin(angle);
-            val newY = radius * cos(angle);
+            val newX = radius * sin(angle)
+            val newY = radius * cos(angle)
 
             return Point(center.x + newX, center.y + newY)
         }

@@ -1,9 +1,8 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id "org.jetbrains.kotlin.jvm" version "1.4.0"
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'application'
 }
-mainClassName = 'io.ygdrasil.delaunator.RunKt'
 
 javafx {
     version = "14"
@@ -12,26 +11,21 @@ javafx {
 
 group 'io.ygdrasil'
 version '1.0.0-SNAPSHOT'
-def tornadofxVersion = '1.7.20'
 
 repositories {
     mavenCentral()
     jcenter()
 }
 
-application {
-    mainClass = mainClassName
-}
+mainClassName = 'io.ygdrasil.delaunator.ui.FXAppKt'
 
 dependencies {
-    implementation "no.tornado:tornadofx:$tornadofxVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation project(':delaunator')
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }

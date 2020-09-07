@@ -1,64 +1,80 @@
-package io.ygdrasil.delaunator
+package io.ygdrasil.delaunator.ui
 
-import io.ygdrasil.delaunator.domain.Point
-import javafx.event.EventHandler
-import javafx.scene.canvas.GraphicsContext
-import javafx.scene.input.MouseButton
-import javafx.scene.paint.Color
-import tornadofx.*
+import io.ygdrasil.delaunator.Delaunator
 import io.ygdrasil.delaunator.domain.IPoint
+import io.ygdrasil.delaunator.domain.Point
 import io.ygdrasil.delaunator.domain.VoronoiCell
-import io.ygdrasil.delaunator.sampler.JitterSampler
-import io.ygdrasil.delaunator.sampler.UniformPoissonDiskSampler
+import io.ygdrasil.delaunator.ui.sampler.JitterSampler
+import io.ygdrasil.delaunator.ui.sampler.UniformPoissonDiskSampler
+import javafx.application.Application
+import javafx.event.EventHandler
+import javafx.scene.Scene
+import javafx.scene.canvas.Canvas
+import javafx.scene.canvas.GraphicsContext
+import javafx.scene.control.Button
+import javafx.scene.input.MouseButton
+import javafx.scene.layout.HBox
+import javafx.scene.layout.Pane
+import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
+import javafx.stage.Stage
 import kotlin.math.sqrt
 
 
-class MainWindow : View("Delaunator Kt") {
-
+class FXApp : Application() {
     private lateinit var delaunator: Delaunator<Point>
     private lateinit var graphicsContext: GraphicsContext
-    private var selectedCell: VoronoiCell? = null
+    private lateinit var canvas: Canvas
 
-    val canvas = canvas {
-        width = 800.0
-        height = 800.0
-        graphicsContext = graphicsContext2D
+    override fun start(primaryStage: Stage) {
+        val root = VBox()
 
-        onMouseClicked = EventHandler { event ->
-            val mousePoint = Point(event.sceneX, event.sceneY)
-            if (event.button == MouseButton.SECONDARY) {
-                addPoint(mousePoint)
-            } else if (event.button == MouseButton.PRIMARY) {
-                val points = delaunator.points
-                selectedCell = delaunator.getVoronoiCells()
-                    .minBy { cell -> points[cell.index].dist(mousePoint) }
+        addCanvas(root)
+
+        val buttonPanel = HBox()
+        root.children.add(buttonPanel)
+
+        Button("generate poisson sample").apply {
+            onAction = EventHandler {
+                val points = getPoisonDiscSample()
+                delaunator = Delaunator(points)
                 redrawCanvas()
-
             }
+            prefWidth = canvas.width / 2
+            buttonPanel.children.add(this)
         }
 
+        Button("generate poisson sample").apply {
+            onAction = EventHandler {
+                val points = getJitterSample()
+                delaunator = Delaunator(points)
+                redrawCanvas()
+            }
+            prefWidth = canvas.width / 2
+            prefHeight = 25.0
+            buttonPanel.children.add(this)
+        }
+
+        val scene = Scene(root, canvas.width, canvas.height + 25.0, Color.BLACK)
+        primaryStage.title = "Delaunator Kt"
+        primaryStage.scene = scene
+        primaryStage.show()
     }
 
-    override val root = vbox {
-        add(canvas)
-        hbox {
-            button("generate poisson sample") {
-                onAction = EventHandler {
-                    val points = getPoisonDiscSample()
-                    delaunator = Delaunator(points)
-                    redrawCanvas()
-                }
-                prefWidth = canvas.width / 2
-            }
-            button("generate jitter sample") {
-                onAction = EventHandler {
-                    val points = getJitterSample()
-                    delaunator = Delaunator(points)
-                    redrawCanvas()
-                }
-                prefWidth = canvas.width / 2
+    private fun addCanvas(root: Pane) {
+        canvas = Canvas(800.0, 800.0)
+        root.children.add(canvas)
+        graphicsContext = canvas.graphicsContext2D
+
+        // Add action to add point on click
+        canvas.onMouseClicked = EventHandler { event ->
+            val mousePoint = Point(event.sceneX, event.sceneY)
+            if (event.button == MouseButton.PRIMARY) {
+                addPoint(mousePoint)
             }
         }
+
+        // Init delaunator and render
         val points = getPoisonDiscSample()
         delaunator = Delaunator(points)
         redrawCanvas()
@@ -66,7 +82,13 @@ class MainWindow : View("Delaunator Kt") {
 
     private fun getJitterSample(): ArrayList<Point> {
         val step = 40
-        return JitterSampler.sample(step.inv() * 2, step.inv() * 2, canvas.width.toInt() + step * 2, canvas.height.toInt() + step * 2, step)
+        return JitterSampler.sample(
+            step.inv() * 2,
+            step.inv() * 2,
+            canvas.width.toInt() + step * 2,
+            canvas.height.toInt() + step * 2,
+            step
+        )
     }
 
     private fun getPoisonDiscSample(): ArrayList<Point> {
@@ -86,22 +108,10 @@ class MainWindow : View("Delaunator Kt") {
 
     private fun redrawCanvas() {
         clearCanvas()
-        drawSelectedCell()
         drawDelaunay()
         drawVoronoi()
         drawHull()
         drawPoints()
-    }
-
-    private fun drawSelectedCell() {
-        selectedCell?.let { cell ->
-            graphicsContext.fill = Color.AQUA
-            val xCoordinate = DoubleArray(cell.points.size)
-            val yCoordinate = DoubleArray(cell.points.size)
-            cell.points.forEachIndexed { index, point -> xCoordinate[index] = point.x }
-            cell.points.forEachIndexed { index, point -> yCoordinate[index] = point.y }
-            graphicsContext.fillPolygon(xCoordinate, yCoordinate, xCoordinate.size)
-        }
     }
 
     private fun drawPoints() {
@@ -114,7 +124,7 @@ class MainWindow : View("Delaunator Kt") {
     private fun drawDelaunay() {
         delaunator.getEdges()
             .forEach { edge ->
-                drawLine(edge.p, edge.q, Color.BLACK);
+                drawLine(edge.p, edge.q, Color.BLACK)
             }
     }
 
@@ -164,4 +174,9 @@ class MainWindow : View("Delaunator Kt") {
         return sqrt((this.x - that.x) * (this.x - that.x) + (this.y - that.y) * (this.y - that.y))
     }
 
+
+}
+
+fun main(args: Array<String>) {
+    Application.launch(FXApp::class.java, *args)
 }
