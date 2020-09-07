@@ -12,6 +12,7 @@ javafx {
 repositories {
     mavenCentral()
     jcenter()
+    maven { url = uri("https://jitpack.io") }
 }
 
 application {

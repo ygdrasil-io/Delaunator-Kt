@@ -1,3 +1,6 @@
+[![](https://jitpack.io/v/chaosnya/Delaunator-Kt.svg)](https://jitpack.io/#chaosnya/Delaunator-Kt)
+[![](https://jitci.com/gh/chaosnya/Delaunator-Kt/svg)](https://jitci.com/gh/chaosnya/Delaunator-Kt)
+
 # Delaunator Kt
 
 Fast [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation) of 2D points implemented in Kotlin.
@@ -16,3 +19,41 @@ See https://mapbox.github.io/delaunator/ for more information about the `Triangl
 ## Run JavaFX application
 
     gradlew run
+    
+    
+## Usage
+### Gradle
+Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+    
+    allprojects {
+        repositories {
+    		...
+            maven { url 'https://jitpack.io' }
+        }
+    }
+    	
+Step 2. Add the dependency
+    
+    dependencies {
+   	    implementation 'com.github.chaosnya:Delaunator-Kt:v1.0.0'
+    }
+    
+### Maven
+
+Step 1. Add the JitPack repository to your build file
+    
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+    	
+Step 2. Add the dependency
+    
+	<dependency>
+	    <groupId>com.github.chaosnya</groupId>
+	    <artifactId>Delaunator-Kt</artifactId>
+	    <version>v1.0.0</version>
+	</dependency>

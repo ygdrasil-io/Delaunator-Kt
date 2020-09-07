@@ -3,7 +3,6 @@ package io.ygdrasil.delaunator.ui
 import io.ygdrasil.delaunator.Delaunator
 import io.ygdrasil.delaunator.domain.IPoint
 import io.ygdrasil.delaunator.domain.Point
-import io.ygdrasil.delaunator.domain.VoronoiCell
 import io.ygdrasil.delaunator.ui.sampler.JitterSampler
 import io.ygdrasil.delaunator.ui.sampler.UniformPoissonDiskSampler
 import javafx.application.Application
