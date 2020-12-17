@@ -43,7 +43,7 @@ class FXApp : Application() {
             buttonPanel.children.add(this)
         }
 
-        Button("generate poisson sample").apply {
+        Button("generate jitter sample").apply {
             onAction = EventHandler {
                 val points = getJitterSample()
                 delaunator = Delaunator(points)

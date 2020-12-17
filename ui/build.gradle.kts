@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.0"
+    id("org.jetbrains.kotlin.jvm")
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("application")
 }
 
 javafx {
-    version = "14"
+    version = "15.0.1"
     modules = mutableListOf("javafx.controls", "javafx.graphics", "javafx.web")
 }
 
@@ -20,7 +20,7 @@ application {
 }
 
 dependencies {
-    implementation(project(":delaunator"))
+    implementation(rootProject)
 }
 
 
