@@ -67,6 +67,18 @@ kotlin {
     val publicationsFromMainHost =
         listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
     publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/ygdrasil-io/Delaunator-Kt")
+                credentials {
+                    username = project.findProperty("gpr.user") as? String
+                        ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") as? String
+                        ?: System.getenv("TOKEN")
+                }
+            }
+        }
         publications {
             matching { it.name in publicationsFromMainHost }.all {
                 val targetPublication = this@all
