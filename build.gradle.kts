@@ -3,8 +3,10 @@ plugins {
     id("maven-publish")
 }
 
-group "io.ygdrasil"
-version "1.0.0-SNAPSHOT"
+allprojects {
+    group = "io.ygdrasil"
+    version = "1.0.0-SNAPSHOT"
+}
 
 repositories {
     mavenCentral()
