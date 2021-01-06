@@ -1,7 +1,5 @@
 /build/
 /.gradle/
 /.idea/
-/delaunator/build/
-/delaunator/target/
-/ui/build/
+/**/build/
 *.iml

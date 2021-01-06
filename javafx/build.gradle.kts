@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm")
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("application")
 }
@@ -11,8 +13,6 @@ javafx {
 
 repositories {
     mavenCentral()
-    jcenter()
-    maven { url = uri("https://jitpack.io") }
 }
 
 application {
@@ -21,11 +21,10 @@ application {
 
 dependencies {
     implementation(rootProject)
+    implementation(project(":common-ui"))
 }
 
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "11"
 }

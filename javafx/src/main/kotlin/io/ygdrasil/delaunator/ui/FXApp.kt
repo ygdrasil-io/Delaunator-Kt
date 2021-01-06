@@ -17,8 +17,6 @@ import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.stage.Stage
-import kotlin.math.sqrt
-
 
 class FXApp : Application() {
     private lateinit var delaunator: Delaunator<Point>
@@ -168,11 +166,6 @@ class FXApp : Application() {
         graphicsContext.fill = Color.rgb(71, 71, 71)
         graphicsContext.fillRect(.0, .0, canvas.width, canvas.height)
     }
-
-    private fun Point.dist(that: Point): Double {
-        return sqrt((this.x - that.x) * (this.x - that.x) + (this.y - that.y) * (this.y - that.y))
-    }
-
 
 }
 

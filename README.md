@@ -19,6 +19,7 @@ See https://mapbox.github.io/delaunator/ for more information about the `Triangl
 
 ## Run JavaFX application
 
-    gradlew run
-    
-    
+    gradlew :javafx:run
+
+## Run Jetpack Compose Desktop application
+    gradlew :jetpack-compose:run

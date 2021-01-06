@@ -1,5 +1,6 @@
 plugins {
-    kotlin("multiplatform") version "1.4.10"
+    kotlin("multiplatform") version "1.4.21"
+    id("maven-publish")
 }
 
 group "io.ygdrasil"
@@ -62,3 +63,4 @@ kotlin {
         val nativeTest by getting
     }
 }
+

@@ -1,3 +1,12 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    }
+
+}
+
 rootProject.name = "Delaunator-KT"
-include( "ui")
+include( "common-ui",  "javafx", "jetpack-compose")
 
