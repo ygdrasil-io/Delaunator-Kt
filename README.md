@@ -1,6 +1,4 @@
 ![Java CI with Gradle](https://github.com/ygdrasil-io/Delaunator-Kt/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
-[![](https://jitpack.io/v/chaosnya/Delaunator-Kt.svg)](https://jitpack.io/#chaosnya/Delaunator-Kt)
-[![](https://jitci.com/gh/chaosnya/Delaunator-Kt/svg)](https://jitci.com/gh/chaosnya/Delaunator-Kt)
 
 # Delaunator Kt
 
