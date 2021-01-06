@@ -7,6 +7,6 @@ pluginManagement {
 
 }
 
-rootProject.name = "Delaunator-KT"
+rootProject.name = "delaunator-kt"
 include( "common-ui",  "javafx", "jetpack-compose")
 
