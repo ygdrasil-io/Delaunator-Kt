@@ -10,9 +10,9 @@ object JitterSampler {
         width: Int,
         height: Int,
         step: Int
-    ): ArrayList<Point> {
+    ): MutableList<Point> {
         val jitter = step / 4
-        val points = ArrayList<Point>()
+        val points = mutableListOf<Point>()
         for (x in initX until (width + 1) step step) {
             for (y in initY until (height + 1) step step) {
                 points.add(

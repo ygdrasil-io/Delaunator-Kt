@@ -1,11 +1,11 @@
 plugins {
-    kotlin("multiplatform") version "1.4.21"
+    kotlin("multiplatform") version "1.4.31"
     id("maven-publish")
 }
 
 allprojects {
     group = "io.ygdrasil"
-    version = "1.0.0"
+    version = "1.0.1"
 }
 
 repositories {

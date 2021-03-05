@@ -3,7 +3,7 @@ package io.ygdrasil.delaunator
 import io.ygdrasil.delaunator.domain.*
 import kotlin.math.*
 
-class Delaunator<T : IPoint>(val points: ArrayList<T>) {
+class Delaunator<T : IPoint>(val points: List<T>) {
 
     private val EPSILON = 2.0.pow(-52.0)
     private val edgeStack = Array(512) { 0 }
@@ -522,12 +522,12 @@ class Delaunator<T : IPoint>(val points: ArrayList<T>) {
 
     fun getVoronoiCells(): Sequence<VoronoiCell> {
         return sequence {
-            val seen = HashSet<Int>();  // of point ids
+            val seen = HashSet<Int>()  // of point ids
             for (triangleId in triangles.indices) {
-                val id = triangles[nextHalfedgeIndex(triangleId)];
+                val id = triangles[nextHalfedgeIndex(triangleId)]
                 if (!seen.contains(id)) {
-                    seen.add(id);
-                    val edges = edgesAroundPoint(triangleId);
+                    seen.add(id)
+                    val edges = edgesAroundPoint(triangleId)
                     val triangles = edges.map { x -> triangleOfEdge(x) }
                     val vertices = triangles.map { x -> getTriangleCenter(x) }
                     yield(VoronoiCell(id, vertices.toList()))
@@ -559,7 +559,7 @@ class Delaunator<T : IPoint>(val points: ArrayList<T>) {
         return Point(
             centerX / accumulatedArea,
             centerY / accumulatedArea
-        );
+        )
     }
 
     private fun getTrianglePoints(t: Int): List<IPoint> {
@@ -580,9 +580,9 @@ class Delaunator<T : IPoint>(val points: ArrayList<T>) {
 
     private fun edgesAroundPoint(start: Int): Sequence<Int> {
         return sequence {
-            var incoming = start;
+            var incoming = start
             do {
-                yield(incoming);
+                yield(incoming)
                 val outgoing = nextHalfedgeIndex(incoming)
                 incoming = halfedges[outgoing]
             } while (incoming != -1 && incoming != start)
@@ -597,8 +597,8 @@ class Delaunator<T : IPoint>(val points: ArrayList<T>) {
         return sequence {
             for (e in triangles.indices) {
                 if (e > halfedges[e]) {
-                    val p = points[triangles[e]];
-                    val q = points[triangles[nextHalfedgeIndex(e)]];
+                    val p = points[triangles[e]]
+                    val q = points[triangles[nextHalfedgeIndex(e)]]
                     yield(Edge(e, p, q))
                 }
             }

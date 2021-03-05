@@ -29,7 +29,7 @@ class Application {
     lateinit var canvas: DrawScope
     var delaunator: Delaunator<Point> = Delaunator(getPoisonDiscSample())
 
-    fun getJitterSample(): ArrayList<Point> {
+    fun getJitterSample(): MutableList<Point> {
         val step = 40
         return JitterSampler.sample(
             step.inv() * 2,
@@ -40,19 +40,12 @@ class Application {
         )
     }
 
-    fun getPoisonDiscSample(): ArrayList<Point> {
+    fun getPoisonDiscSample(): MutableList<Point> {
         return UniformPoissonDiskSampler.sampleCircle(
             Point(canvasSize.toDouble() / 2, canvasSize.toDouble() / 2),
             canvasSize / 2 * 0.80,
             40.0
         )
-    }
-
-    private fun addPoint(point: Point) {
-        val points = delaunator.points
-        points.add(point)
-        delaunator = Delaunator(points)
-        redrawCanvas()
     }
 
     fun redrawCanvas() {
@@ -152,7 +145,7 @@ fun main() = Window(title = "Delaunator Kt", size = IntSize(canvasSize, canvasSi
 fun applicationLayout() {
     val application = remember { Application() }
     Column(Modifier.fillMaxSize()) {
-        Canvas(modifier = Modifier.preferredSize(canvasSize.dp, canvasSize.dp),
+        Canvas(modifier = Modifier.size(canvasSize.dp, canvasSize.dp),
             onDraw = {
                 application.canvas = this
                 application.redrawCanvas()
@@ -160,19 +153,19 @@ fun applicationLayout() {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.preferredSize(canvasSize.dp, buttonHeight.dp)
+            modifier = Modifier.size(canvasSize.dp, buttonHeight.dp)
         ) {
 
             Button(onClick = {
                 val points = application.getPoisonDiscSample()
                 application.delaunator = Delaunator(points)
-            }, modifier = Modifier.preferredSize((canvasSize / 2).dp, buttonHeight.dp)) {
+            }, modifier = Modifier.size((canvasSize / 2).dp, buttonHeight.dp)) {
                 Text("generate poisson sample")
             }
             Button(onClick = {
                 val points = application.getJitterSample()
                 application.delaunator = Delaunator(points)
-            }, modifier = Modifier.preferredSize((canvasSize / 2).dp, buttonHeight.dp)) {
+            }, modifier = Modifier.size((canvasSize / 2).dp, buttonHeight.dp)) {
                 Text("generate jitter sample")
             }
         }

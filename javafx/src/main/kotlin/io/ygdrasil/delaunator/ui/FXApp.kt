@@ -77,7 +77,7 @@ class FXApp : Application() {
         redrawCanvas()
     }
 
-    private fun getJitterSample(): ArrayList<Point> {
+    private fun getJitterSample(): MutableList<Point> {
         val step = 40
         return JitterSampler.sample(
             step.inv() * 2,
@@ -88,7 +88,7 @@ class FXApp : Application() {
         )
     }
 
-    private fun getPoisonDiscSample(): ArrayList<Point> {
+    private fun getPoisonDiscSample(): MutableList<Point> {
         return UniformPoissonDiskSampler.sampleCircle(
             Point(canvas.width / 2, canvas.height / 2),
             canvas.width / 2 * 0.80,
@@ -97,7 +97,7 @@ class FXApp : Application() {
     }
 
     private fun addPoint(point: Point) {
-        val points = delaunator.points
+        val points = delaunator.points.toMutableList()
         points.add(point)
         delaunator = Delaunator(points)
         redrawCanvas()
