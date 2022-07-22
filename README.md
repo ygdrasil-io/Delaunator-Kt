@@ -19,21 +19,20 @@ See https://mapbox.github.io/delaunator/ for more information about the `Triangl
 
     gradlew :javafx:run
 
-## Run Jetpack Compose Desktop application
+## Run Jetpack Compose Desktop application (temporary disabled)
     gradlew :jetpack-compose:run
 
 ## Add to Gradle project
 
 First declare the repository on your buildscript
 
-**Warning** : Github required for now to use a PGP Key or a token to access public packages repositories
 ```kotlin
 repositories {
     maven {
         url = uri("https://maven.pkg.github.com/ygdrasil-io/Delaunator-KT")
-            credentials {
-            username = "your-username"
-            password = "your-password"
+        credentials {
+            username = "mvndummy"
+            password = "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"
         }
     }
 }
