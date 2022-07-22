@@ -3,9 +3,13 @@ plugins {
     id("maven-publish")
 }
 
+val projectVersion = System.getenv("VERSION")?.takeIf { it.isNotBlank() }
+    ?: "1.0.0"
+val nativeOnly = project.hasProperty("nativeOnly")
+
 allprojects {
     group = "io.ygdrasil"
-    version = "1.0.1"
+    version = projectVersion
 }
 
 repositories {
@@ -13,6 +17,7 @@ repositories {
 }
 
 kotlin {
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -21,6 +26,7 @@ kotlin {
             useJUnit()
         }
     }
+
     js(IR) {
         browser {
             testTask {
@@ -31,38 +37,23 @@ kotlin {
             }
         }
     }
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
+    macosX64()
+    linuxX64()
+    mingwX64()
 
-    val publicationsFromMainHost =
-        listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
     publishing {
         repositories {
             maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/ygdrasil-io/Delaunator-Kt")
-                credentials {
-                    username = project.findProperty("gpr.user") as? String
-                        ?: System.getenv("USERNAME")
-                    password = project.findProperty("gpr.key") as? String
-                        ?: System.getenv("TOKEN")
+                name = "GitLab"
+                url = uri("https://gitlab.com/api/v4/projects/25805863/packages/maven")
+                credentials(HttpHeaderCredentials::class) {
+                    name = "Deploy-Token"
+                    value = System.getenv("TOKEN")
                 }
-            }
-        }
-        publications {
-            matching { it.name in publicationsFromMainHost }.all {
-                val targetPublication = this@all
-                tasks.withType<AbstractPublishToMaven>()
-                    .matching { it.publication == targetPublication }
-                    .configureEach {}
+                authentication {
+                    create<HttpHeaderAuthentication>("header")
+                }
             }
         }
     }
 }
-
