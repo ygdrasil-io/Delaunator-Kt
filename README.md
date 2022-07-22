@@ -29,11 +29,7 @@ First declare the repository on your buildscript
 ```kotlin
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/ygdrasil-io/Delaunator-KT")
-        credentials {
-            username = "mvndummy"
-            password = "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"
-        }
+        url = uri("https://gitlab.com/api/v4/projects/25805863/packages/maven")
     }
 }
 ```
@@ -42,10 +38,10 @@ Then add the required dependency regarding your project
 ```kotlin
 dependencies {
 
-    // On JVM Project
-    implementation 'io.ygdrasil:delaunator-kt-jvm:1.0.1'
+    // On MPP Project
+    implementation("io.ygdrasil:delaunator-kt:2022.07.01")
     
     // On JS Project
-    implementation 'io.ygdrasil:delaunator-kt-js:1.0.1'
+    implementation("io.ygdrasil:delaunator-kt-js:2022.07.01")
 }
 ```
