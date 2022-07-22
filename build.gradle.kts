@@ -18,9 +18,6 @@ repositories {
 
 kotlin {
 
-    val target = mutableListOf<org.jetbrains.kotlin.gradle.plugin.KotlinTarget>()
-
-
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -28,7 +25,7 @@ kotlin {
         testRuns["test"].executionTask.configure {
             useJUnit()
         }
-    }//.apply { target.add(this) }
+    }
 
     js(IR) {
         browser {
@@ -39,29 +36,10 @@ kotlin {
                 }
             }
         }
-    }//.apply { target.add(this) }
+    }
     macosX64()
     linuxX64()
     mingwX64()
-
-    /*
-
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    when {
-        hostOs == "Mac OS X" -> {
-            macosX64()
-        }
-        hostOs == "Linux" -> {
-            linuxX64()
-        }
-        isMingwX64 -> {
-            mingwX64()
-        }
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }.apply { target.add(this) }*/
-
-    val publicationsFromMainHost = listOf<String>()//target.map { it.name }
 
     publishing {
         repositories {
@@ -77,13 +55,5 @@ kotlin {
                 }
             }
         }
-        /*publications {
-            matching { it.name in publicationsFromMainHost }.all {
-                val targetPublication = this@all
-                tasks.withType<AbstractPublishToMaven>()
-                    .matching { it.publication == targetPublication }
-                    .configureEach {}
-            }
-        }*/
     }
 }

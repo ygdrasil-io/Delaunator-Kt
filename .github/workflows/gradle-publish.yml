@@ -5,7 +5,7 @@ name: Gradle Package
 
 on:
   release:
-    types: [created, edited]
+    types: [created]
 
 jobs:
   build:
@@ -16,7 +16,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-
     - name: Build and publish with Gradle
       run: gradle build publish
       env:
