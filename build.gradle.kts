@@ -20,28 +20,31 @@ kotlin {
 
     val target = mutableListOf<org.jetbrains.kotlin.gradle.plugin.KotlinTarget>()
 
-    if (!nativeOnly) {
-        jvm {
-            compilations.all {
-                kotlinOptions.jvmTarget = "11"
-            }
-            testRuns["test"].executionTask.configure {
-                useJUnit()
-            }
-        }.apply { target.add(this) }
 
-        js(IR) {
-            browser {
-                testTask {
-                    useKarma {
-                        useChromeHeadless()
-                        webpackConfig.cssSupport.enabled = true
-                    }
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+    }//.apply { target.add(this) }
+
+    js(IR) {
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                    webpackConfig.cssSupport.enabled = true
                 }
             }
-        }.apply { target.add(this) }
+        }
+    }//.apply { target.add(this) }
+    macosX64()
+    linuxX64()
+    mingwX64()
 
-    }
+    /*
 
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
@@ -56,9 +59,9 @@ kotlin {
             mingwX64()
         }
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }.apply { target.add(this) }
+    }.apply { target.add(this) }*/
 
-    val publicationsFromMainHost = target.map { it.name }
+    val publicationsFromMainHost = listOf<String>()//target.map { it.name }
 
     publishing {
         repositories {
@@ -74,13 +77,13 @@ kotlin {
                 }
             }
         }
-        publications {
+        /*publications {
             matching { it.name in publicationsFromMainHost }.all {
                 val targetPublication = this@all
                 tasks.withType<AbstractPublishToMaven>()
                     .matching { it.publication == targetPublication }
                     .configureEach {}
             }
-        }
+        }*/
     }
 }
