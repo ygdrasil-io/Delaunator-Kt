@@ -4,14 +4,12 @@
 name: Gradle Package
 
 on:
-  push:
-    branches: [ master ]
   release:
     types: [created, edited]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
