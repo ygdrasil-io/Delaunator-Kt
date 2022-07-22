@@ -3,7 +3,7 @@ plugins {
     id("maven-publish")
 }
 
-val projectVersion = System.getenv("TOKEN")?.takeIf { it.isNotBlank() }
+val projectVersion = System.getenv("VERSION")?.takeIf { it.isNotBlank() }
     ?: "1.0.0"
 
 allprojects {
