@@ -1,21 +1,24 @@
 package io.ygdrasil.delaunator.ui
 
-import androidx.compose.desktop.Window
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.runtime.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.singleWindowApplication
 import io.ygdrasil.delaunator.Delaunator
 import io.ygdrasil.delaunator.domain.IPoint
 import io.ygdrasil.delaunator.domain.Point
@@ -135,7 +138,9 @@ class Application {
 
 
 
-fun main() = Window(title = "Delaunator Kt", size = IntSize(canvasSize, canvasSize + buttonHeight)) {
+fun main() = singleWindowApplication(
+    title = "Delaunator Kt",
+    state = WindowState(width = canvasSize.dp, height = (canvasSize + buttonHeight).dp)) {
     MaterialTheme {
         applicationLayout()
     }
