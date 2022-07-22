@@ -25,7 +25,7 @@ jobs:
 
     - name: Build native only with Gradle
       if: ${{ matrix.os != 'ubuntu-latest'}}
-      run: gradle build -p nativeOnly
+      run: gradle build -PnativeOnly
       env:
         VERSION: ${{ github.event.release.tag_name }}
 
