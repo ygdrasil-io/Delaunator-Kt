@@ -3,9 +3,12 @@ plugins {
     id("maven-publish")
 }
 
+val projectVersion = System.getenv("TOKEN")?.takeIf { it.isNotBlank() }
+    ?: "1.0.0"
+
 allprojects {
     group = "io.ygdrasil"
-    version = "1.0.1"
+    version = projectVersion
 }
 
 repositories {
@@ -45,13 +48,10 @@ kotlin {
     publishing {
         repositories {
             maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/ygdrasil-io/Delaunator-Kt")
+                url = uri("https://gitlab.com/api/v4/projects/25805863/packages/maven")
                 credentials {
-                    username = project.findProperty("gpr.user") as? String
-                        ?: System.getenv("USERNAME")
-                    password = project.findProperty("gpr.key") as? String
-                        ?: System.getenv("TOKEN")
+                    username = System.getenv("USERNAME")
+                    password = System.getenv("TOKEN")
                 }
             }
         }

@@ -5,13 +5,14 @@ name: Gradle Package
 
 on:
   release:
-    types: [created]
+    types: [created, edited]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -23,11 +24,14 @@ jobs:
 
     - name: Build with Gradle
       run: gradle build
+      env:
+        VERSION: ${{ github.event.release.tag_name }}
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
     - name: Publish to GitHub Packages
       run: gradle publish
       env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VERSION: ${{ github.event.release.tag_name }}
+        USERNAME: ${{ secrets.GITLAB_USERNAME }}
+        TOKEN: ${{ secrets.GITLAB_TOKEN }}
