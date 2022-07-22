@@ -9,9 +9,8 @@ pluginManagement {
 
 rootProject.name = "delaunator-kt"
 
-when (System.getenv("VERSION")?.isNotBlank()) {
-    true -> include( "common-ui")
-    else -> include( "common-ui",  "javafx", "jetpack-compose")
+if (System.getenv("VERSION")?.isBlank() != false) {
+    include( "common-ui",  "javafx", "jetpack-compose")
 }
 
 

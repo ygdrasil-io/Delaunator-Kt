@@ -4,25 +4,33 @@
 name: Gradle Package
 
 on:
+  push:
+    branches: [ master ]
   release:
     types: [created, edited]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: 11
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Build native only with Gradle
+      if: ${{ matrix.os != 'ubuntu-latest'}}
+      run: gradle build -p nativeOnly
+      env:
+        VERSION: ${{ github.event.release.tag_name }}
 
     - name: Build with Gradle
+      if: ${{ matrix.os == 'ubuntu-latest'}}
       run: gradle build
       env:
         VERSION: ${{ github.event.release.tag_name }}

@@ -5,6 +5,7 @@ plugins {
 
 val projectVersion = System.getenv("VERSION")?.takeIf { it.isNotBlank() }
     ?: "1.0.0"
+val nativeOnly = project.hasProperty("nativeOnly")
 
 allprojects {
     group = "io.ygdrasil"
@@ -16,42 +17,60 @@ repositories {
 }
 
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnit()
-        }
-    }
-    js(IR) {
-        browser {
-            testTask {
-                useKarma {
-                    useChromeHeadless()
-                    webpackConfig.cssSupport.enabled = true
+
+    val target = mutableListOf<org.jetbrains.kotlin.gradle.plugin.KotlinTarget>()
+
+    if (!nativeOnly) {
+        jvm {
+            compilations.all {
+                kotlinOptions.jvmTarget = "11"
+            }
+            testRuns["test"].executionTask.configure {
+                useJUnit()
+            }
+        }.apply { target.add(this) }
+
+        js(IR) {
+            browser {
+                testTask {
+                    useKarma {
+                        useChromeHeadless()
+                        webpackConfig.cssSupport.enabled = true
+                    }
                 }
             }
-        }
-    }
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+        }.apply { target.add(this) }
+
     }
 
-    val publicationsFromMainHost =
-        listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
+    val hostOs = System.getProperty("os.name")
+    val isMingwX64 = hostOs.startsWith("Windows")
+    when {
+        hostOs == "Mac OS X" -> {
+            macosX64()
+        }
+        hostOs == "Linux" -> {
+            linuxX64()
+        }
+        isMingwX64 -> {
+            mingwX64()
+        }
+        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+    }.apply { target.add(this) }
+
+    val publicationsFromMainHost = target.map { it.name }
+
     publishing {
         repositories {
             maven {
-                url = uri("https://gitlab.com/api/v4/projects/25805863/packages/maven")
-                credentials {
-                    username = System.getenv("USERNAME")
-                    password = System.getenv("TOKEN")
+                name = "GitLab"
+                url = uri("https://gitlab.com/api/v4/projects/25805863/packages/maven/snapshot")
+                credentials(HttpHeaderCredentials::class) {
+                    name = "Deploy-Token"
+                    value = System.getenv("TOKEN")
+                }
+                authentication {
+                    create<HttpHeaderAuthentication>("header")
                 }
             }
         }
@@ -65,4 +84,3 @@ kotlin {
         }
     }
 }
-
