@@ -1,11 +1,10 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("jvm")
-    // TODO: switch to stable release when available
-    id("org.jetbrains.compose") version "1.2.0-alpha01-dev750"
+    alias(libs.plugins.compose)
 }
 
 
