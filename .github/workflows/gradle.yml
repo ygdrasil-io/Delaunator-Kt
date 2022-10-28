@@ -19,4 +19,4 @@ jobs:
         with:
           java-version: 11
       - name: Build with Gradle
-        run: gradle build
+        run: gradle delaunator:build

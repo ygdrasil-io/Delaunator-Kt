@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation(rootProject)
+    implementation(project(":delaunator"))
 }
 
 tasks.withType<KotlinCompile> {
