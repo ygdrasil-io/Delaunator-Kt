@@ -15,11 +15,7 @@ This code was ported from [Delaunator C# project](https://github.com/nol1fe/dela
 
 See https://mapbox.github.io/delaunator/ for more information about the `Triangles` and `Halfedges` data structures.
 
-## Run JavaFX application
-
-    gradlew :javafx:run
-
-## Run Jetpack Compose Desktop application (temporary disabled)
+## Run Jetpack Compose Desktop application
     gradlew :jetpack-compose:run
 
 ## Add to Gradle project

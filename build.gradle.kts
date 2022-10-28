@@ -1,5 +1,7 @@
+
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("multiplatform") version "1.7.0"
+    alias(libs.plugins.multiplatform)
     id("maven-publish")
 }
 
@@ -27,18 +29,11 @@ kotlin {
         }
     }
 
-    js(IR) {
-        browser {
-            testTask {
-                useKarma {
-                    useChromeHeadless()
-                    webpackConfig.cssSupport.enabled = true
-                }
-            }
-        }
-    }
+    js(IR)
+    macosArm64()
     macosX64()
     linuxX64()
+    linuxArm64()
     mingwX64()
 
     publishing {
