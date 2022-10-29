@@ -10,6 +10,11 @@ val projectVersion = System.getenv("VERSION")?.takeIf { it.isNotBlank() }
 allprojects {
     group = "io.ygdrasil"
     version = projectVersion
+
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 kotlin {

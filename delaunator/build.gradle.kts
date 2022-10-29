@@ -5,10 +5,6 @@ plugins {
     id("maven-publish")
 }
 
-repositories {
-    mavenCentral()
-}
-
 kotlin {
 
     jvm {

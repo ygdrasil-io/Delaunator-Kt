@@ -139,7 +139,7 @@ class Application {
 
 
 fun main() = singleWindowApplication(
-    title = "Delaunator Kt",
+    title = "Delaunator Demo",
     state = WindowState(width = canvasSize.dp, height = (canvasSize + buttonHeight).dp)) {
     MaterialTheme {
         applicationLayout()
