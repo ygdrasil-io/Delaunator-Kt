@@ -10,15 +10,18 @@ This code was ported from [Delaunator C# project](https://github.com/nol1fe/dela
 <img src="https://raw.githubusercontent.com/ygdrasil-io/Delaunator-Kt/master/images/jitter-sample.png" height="400" width="410">
 </p>
 
+[Try the web demo](https://ygdrasil-io.github.io/Delaunator-Kt/)
 
 ## Documentation
 
 See https://mapbox.github.io/delaunator/ for more information about the `Triangles` and `Halfedges` data structures.
 
-## Run Jetpack Compose Desktop application
-    gradlew :jetpack-compose:run
+## Run Demo with Jetpack Compose Desktop application (require a JDK 11+)
+    ./gradlew :demo:jetpack-compose:run
 
-## Add to Gradle project
+## Getting started 
+
+### Gradle
 
 First declare the repository on your buildscript
 

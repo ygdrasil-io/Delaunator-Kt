@@ -35,8 +35,11 @@ class MyScene : Scene() {
         application.canvas = fixedSizeContainer(canvasSize.toDouble(), canvasSize - buttonHeight.toDouble(), true)
         application.redrawCanvas()
 
-        uiButton(canvasSize / 2.0, buttonHeight.toDouble()) {
-            text = "generate poisson sample"
+        uiButton(
+            "generate poisson sample",
+            width = canvasSize / 2.0,
+            height = buttonHeight.toDouble()
+        ) {
             position(.0, canvasSize - height)
             onClick {
                 val points = application.getPoisonDiscSample()
@@ -46,8 +49,11 @@ class MyScene : Scene() {
             enable()
         }
 
-        uiButton(canvasSize / 2.0, buttonHeight.toDouble()) {
-            text = "generate jitter sample"
+        uiButton(
+            "generate jitter sample",
+            width = canvasSize / 2.0,
+            height = buttonHeight.toDouble()
+        ) {
             position(width, canvasSize - height)
             onClick {
                 val points = application.getJitterSample()
