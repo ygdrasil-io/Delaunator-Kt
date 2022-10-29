@@ -8,9 +8,9 @@ object UniformPoissonDiskSampler {
 
     private val DefaultPointsPerIteration = 30
     private val SquareRootTwo = sqrt(2.0)
-    private val Pi = Math.PI
-    private val HalfPi = (Math.PI / 2)
-    private val TwoPi = (Math.PI * 2)
+    private val Pi = PI
+    private val HalfPi = (PI / 2)
+    private val TwoPi = (PI * 2)
 
     class Settings(
         val TopLeft: Point, val LowerRight: Point, val Center: Point,

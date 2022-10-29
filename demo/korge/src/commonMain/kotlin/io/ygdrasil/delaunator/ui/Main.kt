@@ -1,12 +1,11 @@
 package io.ygdrasil.delaunator.ui
 
 import com.soywiz.korge.Korge
+import com.soywiz.korge.input.onClick
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.scene.sceneContainer
-import com.soywiz.korge.view.SContainer
-import com.soywiz.korge.view.circle
-import com.soywiz.korge.view.graphics
-import com.soywiz.korge.view.position
+import com.soywiz.korge.ui.uiButton
+import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.vector.ShapeBuilder
@@ -33,13 +32,35 @@ class MyScene : Scene() {
     val application = Application()
 
     override suspend fun SContainer.sceneMain() {
-        application.canvas = this
+        application.canvas = fixedSizeContainer(canvasSize.toDouble(), canvasSize - buttonHeight.toDouble(), true)
         application.redrawCanvas()
+
+        uiButton(canvasSize / 2.0, buttonHeight.toDouble()) {
+            text = "generate poisson sample"
+            position(.0, canvasSize - height)
+            onClick {
+                val points = application.getPoisonDiscSample()
+                application.delaunator = Delaunator(points)
+                application.redrawCanvas()
+            }
+            enable()
+        }
+
+        uiButton(canvasSize / 2.0, buttonHeight.toDouble()) {
+            text = "generate jitter sample"
+            position(width, canvasSize - height)
+            onClick {
+                val points = application.getJitterSample()
+                application.delaunator = Delaunator(points)
+                application.redrawCanvas()
+            }
+            enable()
+        }
     }
 }
 
 class Application {
-    lateinit var canvas: SContainer
+    lateinit var canvas: Container
     var delaunator: Delaunator<Point> = Delaunator(getPoisonDiscSample())
 
     fun getJitterSample(): MutableList<Point> {
@@ -87,7 +108,7 @@ class Application {
 
     private fun ShapeBuilder.drawLine(start: IPoint, end: IPoint, color: RGBA) {
         val pixelDensity = canvas.width / canvasSize
-        fill(color) {
+        stroke(color) {
             lineWidth = 4.0f * pixelDensity
             line(start.x, start.y, end.x, end.y)
         }

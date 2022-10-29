@@ -1,6 +1,7 @@
 package io.ygdrasil.delaunator.ui.sampler
 
 import io.ygdrasil.delaunator.domain.Point
+import kotlin.random.Random
 
 object JitterSampler {
 
@@ -17,8 +18,8 @@ object JitterSampler {
             for (y in initY until (height + 1) step step) {
                 points.add(
                     Point(
-                        x + jitter * (Math.random() - Math.random()),
-                        y + jitter * (Math.random() - Math.random())
+                        x + jitter * (Random.nextDouble() - Random.nextDouble()),
+                        y + jitter * (Random.nextDouble() - Random.nextDouble())
                     )
                 )
             }
