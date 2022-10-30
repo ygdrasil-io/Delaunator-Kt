@@ -536,7 +536,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         }
     }
 
-    private fun getTriangleCenter(t: Int): IPoint {
+    internal fun getTriangleCenter(t: Int): IPoint {
         val vertices = getTrianglePoints(t)
         return getCentroid(vertices)
     }
@@ -574,11 +574,11 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         return listOf(3 * t, 3 * t + 1, 3 * t + 2)
     }
 
-    private fun triangleOfEdge(e: Int): Int {
+    internal fun triangleOfEdge(e: Int): Int {
         return floor(e / 3.0).toInt()
     }
 
-    private fun edgesAroundPoint(start: Int): Sequence<Int> {
+    internal fun edgesAroundPoint(start: Int): Sequence<Int> {
         return sequence {
             var incoming = start
             do {
@@ -589,7 +589,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         }
     }
 
-    private fun nextHalfedgeIndex(e: Int): Int {
+    internal fun nextHalfedgeIndex(e: Int): Int {
         return if (e % 3 == 2) e - 2 else e + 1
     }
 

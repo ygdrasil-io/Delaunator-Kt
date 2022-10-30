@@ -2,19 +2,25 @@
 kotlin = "1.7.20"
 korge = "3.2.0"
 benchmark = "0.4.4"
-delaunator = "2022.07.01"
 atomicfu = "0.18.3"
 datetime = "0.4.0"
 compose = "1.2.0"
+kotest = "5.5.3"
 
 [plugins]
 korge = { id = "com.soywiz.korge", version.ref = "korge" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+kotest = { id = "io.kotest.multiplatform", version.ref = "kotest" }
 
 
 [libraries]
-delaunator = { module = "io.ygdrasil:delaunator-kt", version.ref = "delaunator" }
 atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 benchmark = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "benchmark" }
+kotest-core = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+
+[bundles]
+kotest = ["kotest-core", "kotest-assertions"]
+

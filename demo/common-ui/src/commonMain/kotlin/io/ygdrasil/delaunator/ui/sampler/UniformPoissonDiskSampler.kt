@@ -6,11 +6,9 @@ import kotlin.random.Random
 
 object UniformPoissonDiskSampler {
 
-    private val DefaultPointsPerIteration = 30
+    private const val DefaultPointsPerIteration = 30
     private val SquareRootTwo = sqrt(2.0)
-    private val Pi = PI
-    private val HalfPi = (PI / 2)
-    private val TwoPi = (PI * 2)
+    private const val TwoPi = (PI * 2)
 
     class Settings(
         val TopLeft: Point, val LowerRight: Point, val Center: Point,
@@ -59,7 +57,7 @@ object UniformPoissonDiskSampler {
     }
 
 
-    fun sample(topLeft: Point, lowerRight: Point, rejectionDistance: Double?, minimumDistance: Double, pointsPerIteration: Int): ArrayList<Point> {
+    private fun sample(topLeft: Point, lowerRight: Point, rejectionDistance: Double?, minimumDistance: Double, pointsPerIteration: Int): ArrayList<Point> {
         val settings = Settings(
             TopLeft = topLeft,
             LowerRight = lowerRight,
@@ -73,7 +71,7 @@ object UniformPoissonDiskSampler {
         settings.GridHeight = (settings.Dimensions.y / settings.CellSize).toInt() + 1
 
         val state = State(
-            Grid = Array(settings.GridWidth) { Array<Point?>(settings.GridHeight) { null } },
+            Grid = Array(settings.GridWidth) { Array(settings.GridHeight) { null } },
             ActivePoints = mutableListOf(),
             Points = ArrayList()
         )
@@ -102,7 +100,7 @@ object UniformPoissonDiskSampler {
         return state.Points
     }
 
-    fun addFirstPoint(settings: Settings, state: State) {
+    private fun addFirstPoint(settings: Settings, state: State) {
         var added = false
         while (!added) {
             var d = Random.nextDouble()
@@ -132,7 +130,7 @@ object UniformPoissonDiskSampler {
         }
     }
 
-    fun addNextPoint(point: Point, settings: Settings, state: State): Boolean {
+    private fun addNextPoint(point: Point, settings: Settings, state: State): Boolean {
         var found = false
         val q = generateRandomAround(
             point,
@@ -173,7 +171,7 @@ object UniformPoissonDiskSampler {
     }
 
 
-    fun distance(value1: Point, value2: Point): Double {
+    private fun distance(value1: Point, value2: Point): Double {
         val num1 = value1.x - value2.x
         val num2 = value1.y - value2.y
         val num4 = num1 * num1
@@ -181,7 +179,7 @@ object UniformPoissonDiskSampler {
         return sqrt(num4 + num6)
     }
 
-    fun distanceSquared(value1: Point, value2: Point): Double {
+    private fun distanceSquared(value1: Point, value2: Point): Double {
         val num1 = value1.x - value2.x
         val num2 = value1.y - value2.y
         val num4 = num1 * num1
@@ -189,14 +187,14 @@ object UniformPoissonDiskSampler {
         return num4 + num6
     }
 
-    fun denormalize(point: Point, origin: Point, cellSize: Double): Point {
+    private fun denormalize(point: Point, origin: Point, cellSize: Double): Point {
         return Point(
             (point.x - origin.x) / cellSize,
             (point.y - origin.y) / cellSize
         )
     }
 
-    fun generateRandomAround(center: Point, minimumDistance: Double): Point {
+    private fun generateRandomAround(center: Point, minimumDistance: Double): Point {
             var d = Random.nextDouble()
             val radius = minimumDistance + minimumDistance * d
 

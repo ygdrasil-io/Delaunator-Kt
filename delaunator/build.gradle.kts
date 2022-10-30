@@ -2,6 +2,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotest)
     id("maven-publish")
 }
 
@@ -9,10 +10,9 @@ kotlin {
 
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnit()
+            kotlinOptions {
+                jvmTarget = "11"
+            }
         }
     }
 
@@ -22,8 +22,18 @@ kotlin {
     macosArm64()
     macosX64()
     linuxX64()
-    linuxArm64()
+    // Not yet supported by kotest
+    //linuxArm64()
     mingwX64()
+
+
+    sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.bundles.kotest)
+            }
+        }
+    }
 
     publishing {
         repositories {
@@ -41,3 +51,4 @@ kotlin {
         }
     }
 }
+
