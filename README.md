@@ -1,6 +1,6 @@
 ![Java CI with Gradle](https://github.com/ygdrasil-io/Delaunator-Kt/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
 
-# Delaunator Kt
+# Delaunator Kotlin
 
 Fast [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation) of 2D points implemented in Kotlin.
 
