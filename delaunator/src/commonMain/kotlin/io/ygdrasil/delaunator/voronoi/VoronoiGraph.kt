@@ -5,26 +5,27 @@ import io.ygdrasil.delaunator.domain.IPoint
 typealias Index = UInt
 typealias Vertices = List<VoronoiGraph.Node.Vertex>
 typealias Nodes = List<VoronoiGraph.Node>
-inline operator fun <E> MutableList<E>.get(index: Index): E = this[index.toInt()]
 
 data class VoronoiGraph internal constructor(
     val nodes: Nodes,
-    val vertices: Vertices = listOf()
+    val vertices: Vertices
 ) {
     class Node internal constructor(
         val index: Index,
         val origin: IPoint,
-        neighboursProvider: NeighboursProvider
+        neighboursProvider: NeighboursProvider,
+        verticesProvider: VerticesProvider
     ) {
         val neighbours: List<Node> by neighboursProvider
-        val vertices: Vertices = listOf()
+        val vertices: Vertices by verticesProvider
 
         class Vertex internal constructor(
             val index: Index,
-            vertexNodesProvider: VertexNodesProvider
+            val position: IPoint,
+            nodeByVertexProvider: NodeByVertexProvider
             ) {
             
-            val nodes: List<Node> by vertexNodesProvider
+            val nodes: List<Node> by nodeByVertexProvider
 
         }
 

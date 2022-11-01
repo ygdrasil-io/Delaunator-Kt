@@ -31,4 +31,8 @@ val voronoiGraphKtTest: StringSpec.() -> Unit = {
         }
     }
 
+    "each voronoi graph nodes neighbours should share two vertices" {
+        TODO()
+    }
+
 }
