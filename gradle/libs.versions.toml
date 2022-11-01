@@ -21,6 +21,7 @@ benchmark = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", versio
 kotest-core = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 
+
 [bundles]
 kotest = ["kotest-core", "kotest-assertions"]
 

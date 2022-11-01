@@ -3,6 +3,9 @@ package io.ygdrasil.delaunator
 import io.ygdrasil.delaunator.domain.*
 import kotlin.math.*
 
+
+fun <T : IPoint> List<T>.toDelaunator() = Delaunator(this)
+
 class Delaunator<T : IPoint>(val points: List<T>) {
 
     private val EPSILON = 2.0.pow(-52.0)
@@ -28,9 +31,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
 
 
     init {
-        if (points.size < 3) {
-            throw IndexOutOfBoundsException("Need at least 3 points")
-        }
+        if (points.size < 3) error("Need at least 3 points")
 
         coords = Array(points.size * 2) { .0 }
 

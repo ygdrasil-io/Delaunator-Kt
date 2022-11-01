@@ -6,4 +6,5 @@ interface IPoint {
 
     operator fun <K, V> Map.Entry<K, V>.component1() = x
     operator fun <K, V> Map.Entry<K, V>.component2() = y
+
 }

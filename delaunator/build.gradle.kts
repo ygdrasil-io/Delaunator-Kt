@@ -6,6 +6,8 @@ plugins {
     id("maven-publish")
 }
 
+//System.getProperties().list(System.out)
+
 kotlin {
 
     jvm {
