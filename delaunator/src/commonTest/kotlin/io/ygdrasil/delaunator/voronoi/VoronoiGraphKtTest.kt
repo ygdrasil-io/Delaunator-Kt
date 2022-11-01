@@ -31,8 +31,18 @@ val voronoiGraphKtTest: StringSpec.() -> Unit = {
         }
     }
 
+    "voronoi graph nodes should have vertices" {
+        voronoiGraph.nodes.map { it.vertices }
+            .forEach { it.shouldNotHaveSize(0) }
+    }
+
     "each voronoi graph nodes neighbours should share two vertices" {
-        TODO()
+        voronoiGraph.nodes.forEach { node ->
+            node.neighbours.forEach { neighbour ->
+                node.vertices.filter { neighbour.vertices.contains(it) }
+                    .shouldHaveSize(2)
+            }
+        }
     }
 
 }

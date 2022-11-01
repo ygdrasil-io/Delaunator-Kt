@@ -27,6 +27,7 @@ data class VoronoiGraph internal constructor(
             
             val nodes: List<Node> by nodeByVertexProvider
 
+            override fun toString() = "Vertex(index: $index, position: $position)"
         }
 
         override fun equals(other: Any?) = (other as? Node)?.index == index
