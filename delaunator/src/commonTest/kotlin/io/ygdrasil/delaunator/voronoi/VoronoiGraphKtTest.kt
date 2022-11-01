@@ -1,9 +1,7 @@
 package io.ygdrasil.delaunator.voronoi
 
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.collections.shouldContain
-import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.collections.shouldNotHaveSize
+import io.kotest.matchers.collections.*
 import io.ygdrasil.delaunator.Sampler
 import io.ygdrasil.delaunator.toDelaunator
 
@@ -36,11 +34,11 @@ val voronoiGraphKtTest: StringSpec.() -> Unit = {
             .forEach { it.shouldNotHaveSize(0) }
     }
 
-    "each voronoi graph nodes neighbours should share two vertices" {
+    "each voronoi graph nodes neighbours should share two vertices, except on the edge of the diagram" {
         voronoiGraph.nodes.forEach { node ->
             node.neighbours.forEach { neighbour ->
                 node.vertices.filter { neighbour.vertices.contains(it) }
-                    .shouldHaveSize(2)
+                    .shouldHaveAtMostSize(2)
             }
         }
     }

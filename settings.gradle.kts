@@ -10,10 +10,4 @@ pluginManagement {
 
 rootProject.name = "delaunator-kt"
 
-if (System.getenv("VERSION")?.isBlank() != false) {
-    include( "delaunator", ":demo:common-ui", ":demo:jetpack-compose", ":demo:korge")
-} else {
-    include( "delaunator")
-}
-
-
+include( ":delaunator", ":demo:common-ui", ":demo:jetpack-compose", ":demo:korge")
