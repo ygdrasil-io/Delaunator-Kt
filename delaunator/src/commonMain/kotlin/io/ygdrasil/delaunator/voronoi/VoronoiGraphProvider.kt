@@ -11,5 +11,5 @@ internal interface NodeByVertexProvider {
 }
 
 internal interface VerticesProvider {
-    operator fun getValue(thisRef: VoronoiGraph.Node, property: KProperty<*>): Vertices
+    operator fun getValue(node: VoronoiGraph.Node, property: KProperty<*>): Vertices
 }

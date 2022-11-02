@@ -3,7 +3,7 @@ package io.ygdrasil.delaunator.voronoi
 import io.ygdrasil.delaunator.domain.IPoint
 import kotlin.reflect.KProperty
 
-internal inline operator fun <E> MutableList<E>.get(index: Index): E = this[index.toInt()]
+internal operator fun <E> MutableList<E>.get(index: Index): E = this[index.toInt()]
 
 internal class VoronoiGraphStructure : NeighboursProvider, NodeByVertexProvider {
 
