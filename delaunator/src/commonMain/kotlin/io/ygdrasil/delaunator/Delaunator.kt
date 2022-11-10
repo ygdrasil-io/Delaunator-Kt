@@ -567,7 +567,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         return pointsOfTriangle(t).map { p -> points[p] }
     }
 
-    private fun pointsOfTriangle(t: Int): List<Int> {
+    internal fun pointsOfTriangle(t: Int): List<Int> {
         return edgesOfTriangle(t).map { e -> triangles[e] }
     }
 
@@ -606,4 +606,17 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         }
     }
 
+    /**
+     * Identifies what triangles are adjacent to the given triangle. Taken from {@link https://mapbox.github.io/delaunator/#triangle-to-triangles| the Delaunator docs.}
+     * @param {number} t The index of the triangle
+     * @returns {number[]} The indices of the triangles that share half-edges with this triangle.
+     */
+    internal fun trianglesAdjacentToTriangle(t: Int): Array<Int> {
+        val triangles = mutableListOf<Int>()
+        for (edge in edgesOfTriangle(t)) {
+            val opposite = halfedges[edge]
+            triangles.add(this.triangleOfEdge(opposite))
+        }
+        return triangles.toTypedArray()
+    }
 }

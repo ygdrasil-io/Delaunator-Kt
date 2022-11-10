@@ -23,26 +23,20 @@ fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
                     .map(::triangleOfEdge)
                     .map(::getTriangleCenter)
                     .map(::findVertexIndexOrCreateVertexAndReturnNewIndex)
-                    .onEach(::insertNeighboursNodesToVertex)
+                    .onEach { insertNeighboursNodesToVertex(it, this@toVoronoiGraph) }
+                    .onEach { insertNeighboursVerticesToVertex(it, this@toVoronoiGraph) }
                     .toList()
                 verticesByNode[cellIndex].addAll(vertices)
             }
         }
 
     }.getGraph()
-
-
-    // TODO: inject this
-    // vertex: adjacent vertices
-    vertices.v[t] = trianglesAdjacentToTriangle(t)
-
-    // vertex: adjacent cells
-    vertices.c[t] = pointsOfTriangle(t)
 }
-
-context(Delaunator<T>)
-private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursNodesToVertex(index: Int) {
-    neighboursVertexByVertex[index] = pointsOfTriangle(index)
+private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursVerticesToVertex(index: Int, delaunator: Delaunator<T>) {
+    neighboursVertexByVertex[index].addAll(delaunator.trianglesAdjacentToTriangle(index))
+}
+private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursNodesToVertex(index: Int, delaunator: Delaunator<T>) {
+    neighboursVertexByVertex[index].addAll(delaunator.pointsOfTriangle(index))
 }
 
 private fun VoronoiGraphStructure.createVertexAndReturnPosition(position: IPoint): Int {
