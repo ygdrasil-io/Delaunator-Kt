@@ -5,6 +5,8 @@ import io.ygdrasil.delaunator.domain.IEdge
 import io.ygdrasil.delaunator.domain.IPoint
 import io.ygdrasil.delaunator.indexOfOrNull
 
+
+
 fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
     return VoronoiGraphStructure().apply {
         origins.addAll(points)
@@ -21,6 +23,7 @@ fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
                     .map(::triangleOfEdge)
                     .map(::getTriangleCenter)
                     .map(::findVertexIndexOrCreateVertexAndReturnNewIndex)
+                    .onEach(::insertNeighboursNodesToVertex)
                     .toList()
                 verticesByNode[cellIndex].addAll(vertices)
             }
@@ -28,10 +31,24 @@ fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
 
     }.getGraph()
 
+
+    // TODO: inject this
+    // vertex: adjacent vertices
+    vertices.v[t] = trianglesAdjacentToTriangle(t)
+
+    // vertex: adjacent cells
+    vertices.c[t] = pointsOfTriangle(t)
+}
+
+context(Delaunator<T>)
+private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursNodesToVertex(index: Int) {
+    neighboursVertexByVertex[index] = pointsOfTriangle(index)
 }
 
 private fun VoronoiGraphStructure.createVertexAndReturnPosition(position: IPoint): Int {
     verticesPosition.add(position)
+    neighboursNodesByVertex.add(mutableListOf())
+    neighboursVertexByVertex.add(mutableListOf())
     nodesByVertex.add(mutableListOf())
 
     if (verticesPosition.size != verticesPosition.size) error("verticesPosition size and nodesByVertex should match")

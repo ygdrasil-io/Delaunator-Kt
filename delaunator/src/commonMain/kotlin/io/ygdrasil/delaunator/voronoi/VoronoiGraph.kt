@@ -22,10 +22,12 @@ data class VoronoiGraph internal constructor(
         class Vertex internal constructor(
             val index: Index,
             val position: IPoint,
-            nodeByVertexProvider: NodeByVertexProvider
+            neighboursNodesOfVertexProvider: NeighboursNodesOfVertexProvider,
+            neighboursVerticesOfVertexProvider: NeighboursVerticesOfVertexProvider
         ) {
 
-            val nodes: List<Node> by nodeByVertexProvider
+            val neighboursNodes: Nodes by neighboursNodesOfVertexProvider
+            val neighboursVertices: Vertices by neighboursVerticesOfVertexProvider
 
             override fun toString() = "Vertex(index: $index, position: $position)"
         }
