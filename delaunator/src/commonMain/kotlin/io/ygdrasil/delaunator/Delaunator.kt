@@ -612,12 +612,10 @@ class Delaunator<T : IPoint>(val points: List<T>) {
      * @param {number} t The index of the triangle
      * @returns {number[]} The indices of the triangles that share half-edges with this triangle.
      */
-    internal fun trianglesAdjacentToTriangle(t: Int): Array<Int> {
-        val triangles = mutableListOf<Int>()
+    internal fun trianglesAdjacentToTriangle(t: Int): List<Int> = mutableListOf<Int>().apply {
         for (edge in edgesOfTriangle(t)) {
             val opposite = halfedges[edge]
-            triangles.add(this.triangleOfEdge(opposite))
+            add(triangleOfEdge(opposite))
         }
-        return triangles.toTypedArray()
     }
 }

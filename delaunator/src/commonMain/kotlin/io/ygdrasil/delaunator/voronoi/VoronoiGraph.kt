@@ -29,6 +29,10 @@ data class VoronoiGraph internal constructor(
             val neighboursNodes: Nodes by neighboursNodesOfVertexProvider
             val neighboursVertices: Vertices by neighboursVerticesOfVertexProvider
 
+            override fun equals(other: Any?) = (other as? Vertex)?.index == index
+
+            override fun hashCode() = index.toInt()
+
             override fun toString() = "Vertex(index: $index, position: $position)"
         }
 

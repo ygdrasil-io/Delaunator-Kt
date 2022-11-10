@@ -23,12 +23,14 @@ fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
                     .map(::triangleOfEdge)
                     .map(::getTriangleCenter)
                     .map(::findVertexIndexOrCreateVertexAndReturnNewIndex)
-                    .onEach { insertNeighboursNodesToVertex(it, this@toVoronoiGraph) }
-                    .onEach { insertNeighboursVerticesToVertex(it, this@toVoronoiGraph) }
                     .toList()
                 verticesByNode[cellIndex].addAll(vertices)
             }
         }
+
+        verticesPosition.indices
+            .onEach { insertNeighboursNodesToVertex(it, this@toVoronoiGraph) }
+            .onEach { insertNeighboursVerticesToVertex(it, this@toVoronoiGraph) }
 
     }.getGraph()
 }
@@ -36,7 +38,7 @@ private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursVerticesToVertex(
     neighboursVertexByVertex[index].addAll(delaunator.trianglesAdjacentToTriangle(index))
 }
 private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursNodesToVertex(index: Int, delaunator: Delaunator<T>) {
-    neighboursVertexByVertex[index].addAll(delaunator.pointsOfTriangle(index))
+    neighboursNodesByVertex[index].addAll(delaunator.pointsOfTriangle(index))
 }
 
 private fun VoronoiGraphStructure.createVertexAndReturnPosition(position: IPoint): Int {

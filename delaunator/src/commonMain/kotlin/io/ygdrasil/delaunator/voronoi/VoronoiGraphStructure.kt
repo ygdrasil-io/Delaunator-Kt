@@ -12,8 +12,8 @@ internal class VoronoiGraphStructure : NeighboursProvider {
     }
 
     internal val origins = mutableListOf<IPoint>()
-    internal val neighbours  = mutableListOf<MutableList<Int>>()
-    internal val verticesByNode  = mutableListOf<MutableList<Int>>()
+    internal val neighbours = mutableListOf<MutableList<Int>>()
+    internal val verticesByNode = mutableListOf<MutableList<Int>>()
     internal val verticesPosition = mutableListOf<IPoint>()
     internal val nodesByVertex = mutableListOf<MutableList<Int>>()
 
@@ -33,13 +33,21 @@ internal class VoronoiGraphStructure : NeighboursProvider {
 
     internal val vertices: Vertices by lazy {
         verticesPosition.mapIndexed { index, position ->
-            VoronoiGraph.Node.Vertex(index.toUInt(), position, neighboursNodesOfVertexProvider, neighboursVerticesOfVertexProvider)
+            VoronoiGraph.Node.Vertex(
+                index.toUInt(),
+                position,
+                neighboursNodesOfVertexProvider,
+                neighboursVerticesOfVertexProvider
+            )
         }
     }
 
     private val neighboursVerticesOfVertexProvider = object : NeighboursVerticesOfVertexProvider {
         override fun getValue(vertex: VoronoiGraph.Node.Vertex, property: KProperty<*>): Vertices {
-            return neighboursVertexByVertex[vertex.index].map { vertices[it] }
+            return neighboursVertexByVertex[vertex.index]
+                // when node is on edge of the graph, a vertix can contains less than 3 neighbours
+                .filter { it != -1 }
+                .map { vertices[it] }
         }
     }
 
