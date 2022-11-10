@@ -17,10 +17,10 @@ fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
             val cellIndex = triangles[nextHalfedgeIndex(triangleIndex)]
             if (!seen.contains(cellIndex)) {
                 seen.add(cellIndex)
-                val edges = edgesAroundPoint(triangleIndex)
-                val triangles = edges.map { x -> triangleOfEdge(x) }
-                val vertices = triangles.map { x -> getTriangleCenter(x) }
-                    .map { findVertexIndexOrCreateVertexAndReturnNewIndex(it) }
+                val vertices = edgesAroundPoint(triangleIndex)
+                    .map(::triangleOfEdge)
+                    .map(::getTriangleCenter)
+                    .map(::findVertexIndexOrCreateVertexAndReturnNewIndex)
                     .toList()
                 verticesByNode[cellIndex].addAll(vertices)
             }

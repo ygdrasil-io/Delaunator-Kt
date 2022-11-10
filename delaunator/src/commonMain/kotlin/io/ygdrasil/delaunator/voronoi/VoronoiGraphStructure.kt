@@ -5,7 +5,7 @@ import kotlin.reflect.KProperty
 
 internal operator fun <E> MutableList<E>.get(index: Index): E = this[index.toInt()]
 
-internal class VoronoiGraphStructure : NeighboursProvider, NodeByVertexProvider {
+internal class VoronoiGraphStructure : NeighboursProvider {
 
     fun getGraph(): VoronoiGraph {
         return VoronoiGraph(nodes, vertices)
@@ -17,7 +17,7 @@ internal class VoronoiGraphStructure : NeighboursProvider, NodeByVertexProvider 
     internal val verticesPosition = mutableListOf<IPoint>()
     internal val nodesByVertex = mutableListOf<MutableList<Int>>()
 
-    internal val nodes: Nodes by lazy {
+    private val nodes: Nodes by lazy {
         origins.mapIndexed { index, origin ->
             VoronoiGraph.Node(
                 index.toUInt(),
@@ -30,7 +30,13 @@ internal class VoronoiGraphStructure : NeighboursProvider, NodeByVertexProvider 
 
     internal val vertices: Vertices by lazy {
         verticesPosition.mapIndexed { index, position ->
-            VoronoiGraph.Node.Vertex(index.toUInt(), position, this)
+            VoronoiGraph.Node.Vertex(index.toUInt(), position, nodeByVertexProvider)
+        }
+    }
+
+    private val nodeByVertexProvider = object : NodeByVertexProvider {
+        override fun getValue(thisRef: VoronoiGraph.Node.Vertex, property: KProperty<*>): Nodes {
+            TODO("Not yet implemented")
         }
     }
 
@@ -39,11 +45,9 @@ internal class VoronoiGraphStructure : NeighboursProvider, NodeByVertexProvider 
             return verticesByNode[node.index].map { vertices[it] }
         }
     }
+
     override fun getValue(thisRef: VoronoiGraph.Node, property: KProperty<*>): Nodes {
         return neighbours[thisRef.index].map { nodes[it] }
     }
 
-    override fun getValue(thisRef: VoronoiGraph.Node.Vertex, property: KProperty<*>): Nodes {
-        TODO("Not yet implemented")
-    }
 }
