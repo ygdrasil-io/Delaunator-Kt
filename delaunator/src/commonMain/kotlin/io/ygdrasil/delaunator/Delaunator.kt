@@ -521,6 +521,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         return createHull(getHullPoints())
     }
 
+    @Deprecated("use toGraph() instead ")
     fun getVoronoiCells(): Sequence<VoronoiCell> {
         return sequence {
             val seen = HashSet<Int>()  // of point ids
