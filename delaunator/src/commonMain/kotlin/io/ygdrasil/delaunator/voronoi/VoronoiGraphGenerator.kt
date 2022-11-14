@@ -5,78 +5,44 @@ import io.ygdrasil.delaunator.domain.IEdge
 import io.ygdrasil.delaunator.domain.IPoint
 import io.ygdrasil.delaunator.indexOfOrNull
 
-
+private fun <V> Map<Int, V>.toStructuredList(): List<V> {
+    return keys.sorted().map { getOrElse(it) { error("unreachable statement") } }
+}
 
 fun <T : IPoint> Delaunator<T>.toVoronoiGraph(): VoronoiGraph {
-    return VoronoiGraphStructure().apply {
-        origins.addAll(points)
-        initNodeVertices()
-        initNeighbours()
-        linkNeighbours(getEdges())
+    val verticesByNode = mutableMapOf<Int, List<Int>>()
+    val neighboursNodesByNode = mutableMapOf<Int, List<Int>>()
+    val verticesPosition = mutableMapOf<Int, IPoint>()
+    val neighboursNodesByVertex = mutableMapOf<Int, List<Int>>()
+    val neighboursVertexByVertex = mutableMapOf<Int, List<Int>>()
 
-        val seen = HashSet<Int>()  // of point ids
-        for (triangleIndex in triangles.indices) {
-            val cellIndex = triangles[nextHalfedgeIndex(triangleIndex)]
-            if (!seen.contains(cellIndex)) {
-                seen.add(cellIndex)
-                val vertices = edgesAroundPoint(triangleIndex)
-                    .map(::triangleOfEdge)
-                    .map(::getTriangleCenter)
-                    .map(::findVertexIndexOrCreateVertexAndReturnNewIndex)
-                    .toList()
-                verticesByNode[cellIndex].addAll(vertices)
-            }
+    for (triangleId in triangles.indices) {
+
+        val vertex = triangles[nextHalfedgeIndex(triangleId)]
+        if (!verticesByNode.containsKey(vertex)) {
+            val edges = edgesAroundPoint(triangleId)
+
+            verticesByNode[vertex] = edges.map { edge -> triangleOfEdge(edge) }.toList()
+            neighboursNodesByNode[vertex] = edges.map { edge -> triangles[edge] }.toList()
+
         }
 
-        verticesPosition.indices
-            .onEach { insertNeighboursNodesToVertex(it, this@toVoronoiGraph) }
-            .onEach { insertNeighboursVerticesToVertex(it, this@toVoronoiGraph) }
+        val triangle = triangleOfEdge(triangleId)
+        if (!verticesPosition.containsKey(triangle)) {
 
-    }.getGraph()
-}
-private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursVerticesToVertex(index: Int, delaunator: Delaunator<T>) {
-    neighboursVertexByVertex[index].addAll(delaunator.trianglesAdjacentToTriangle(index))
-}
-private fun <T : IPoint> VoronoiGraphStructure.insertNeighboursNodesToVertex(index: Int, delaunator: Delaunator<T>) {
-    neighboursNodesByVertex[index].addAll(delaunator.pointsOfTriangle(index))
-}
-
-private fun VoronoiGraphStructure.createVertexAndReturnPosition(position: IPoint): Int {
-    verticesPosition.add(position)
-    neighboursNodesByVertex.add(mutableListOf())
-    neighboursVertexByVertex.add(mutableListOf())
-    nodesByVertex.add(mutableListOf())
-
-    if (verticesPosition.size != verticesPosition.size) error("verticesPosition size and nodesByVertex should match")
-    return verticesPosition.indexOfOrNull(position) ?: error("fail to find vertex index")
-}
-
-private fun VoronoiGraphStructure.findVertexIndexOrCreateVertexAndReturnNewIndex(position: IPoint): Int {
-    return verticesPosition.indexOfOrNull(position)
-        ?: createVertexAndReturnPosition(position)
-}
-
-private fun VoronoiGraphStructure.initNodeVertices() =
-    repeat(origins.size) { verticesByNode.add(mutableListOf())}
-
-private fun VoronoiGraphStructure.linkNeighbours(edges: Sequence<IEdge>) = edges
-    .map { edge -> edge.toNodeIndexes(origins) }
-        .forEach(::linkNode)
-
-private fun IEdge.toNodeIndexes(origins: List<IPoint>): Pair<Int, Int> {
-    return origins.indexOf(q) to origins.indexOf(p)
-}
-
-private fun VoronoiGraphStructure.initNeighbours() =
-    repeat(origins.size) { neighbours.add(mutableListOf()) }
-
-private fun VoronoiGraphStructure.linkNode(edge: Pair<Int, Int>) = edge.let { (left, right) ->
-    linkNode(left, right)
-    linkNode(right, left)
-}
-
-private fun VoronoiGraphStructure.linkNode(left: Int, right: Int) {
-    if (neighbours[left].contains(right).not()) {
-        neighbours[left].add(right)
+            verticesPosition[triangle] = getTriangleCenter(triangle)
+            neighboursVertexByVertex[triangle] = trianglesAdjacentToTriangle(triangle)
+            neighboursNodesByVertex[triangle] = pointsOfTriangle(triangle)
+        }
     }
+
+    return VoronoiGraphStructure(
+        points,
+        verticesByNode.toStructuredList(),
+        neighboursNodesByNode.toStructuredList(),
+        verticesPosition.toStructuredList(),
+        neighboursVertexByVertex.toStructuredList(),
+        neighboursNodesByVertex.toStructuredList()
+    ).getGraph()
 }
+

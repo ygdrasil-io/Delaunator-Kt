@@ -3,22 +3,20 @@ package io.ygdrasil.delaunator.voronoi
 import io.ygdrasil.delaunator.domain.IPoint
 import kotlin.reflect.KProperty
 
-internal operator fun <E> MutableList<E>.get(index: Index): E = this[index.toInt()]
+internal operator fun <E> List<E>.get(index: Index): E = this[index.toInt()]
 
-internal class VoronoiGraphStructure : NeighboursProvider {
+internal class VoronoiGraphStructure(
+    internal val origins: List<IPoint>,
+    internal val verticesByNode: List<List<Int>>,
+    internal val neighboursNodesByNode: List<List<Int>>,
+    internal val verticesPosition: List<IPoint>,
+    internal val neighboursVertexByVertex: List<List<Int>>,
+    internal val neighboursNodesByVertex: List<List<Int>>
+) : NeighboursProvider {
 
     fun getGraph(): VoronoiGraph {
         return VoronoiGraph(nodes, vertices)
     }
-
-    internal val origins = mutableListOf<IPoint>()
-    internal val neighbours = mutableListOf<MutableList<Int>>()
-    internal val verticesByNode = mutableListOf<MutableList<Int>>()
-    internal val verticesPosition = mutableListOf<IPoint>()
-    internal val nodesByVertex = mutableListOf<MutableList<Int>>()
-
-    internal val neighboursNodesByVertex = mutableListOf<MutableList<Int>>()
-    internal val neighboursVertexByVertex = mutableListOf<MutableList<Int>>()
 
     private val nodes: Nodes by lazy {
         origins.mapIndexed { index, origin ->
@@ -64,7 +62,7 @@ internal class VoronoiGraphStructure : NeighboursProvider {
     }
 
     override fun getValue(thisRef: VoronoiGraph.Node, property: KProperty<*>): Nodes {
-        return neighbours[thisRef.index].map { nodes[it] }
+        return neighboursNodesByNode[thisRef.index].map { nodes[it] }
     }
 
 }
