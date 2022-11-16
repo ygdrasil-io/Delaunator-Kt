@@ -6,7 +6,7 @@ interface IPoint {
 
     fun toArray() = arrayOf(x, y)
 
-    operator fun <K, V> Map.Entry<K, V>.component1() = x
-    operator fun <K, V> Map.Entry<K, V>.component2() = y
+    operator fun component1() = x
+    operator fun component2() = y
 
 }
