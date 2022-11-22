@@ -1,7 +1,6 @@
 package io.ygdrasil.delaunator.ui
 
-import io.ygdrasil.delaunator.domain.IPoint
-import io.ygdrasil.delaunator.domain.Point
+import io.ygdrasil.delaunator.Point
 import io.ygdrasil.delaunator.toDelaunator
 import io.ygdrasil.delaunator.ui.sampler.JitterSampler
 import io.ygdrasil.delaunator.ui.sampler.UniformPoissonDiskSampler
@@ -17,7 +16,7 @@ class ApplicationState(canvasSize: Int) {
         Jitter
     }
 
-    lateinit var hullEdges:List<Pair<IPoint, IPoint>>
+    lateinit var hullEdges:List<Pair<Point, Point>>
     var voroinoiGraph = getGraphFromSampler(Sampler.PoisonDisc)
 
     fun regenerate(sampler: Sampler) {

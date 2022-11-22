@@ -1,6 +1,6 @@
 package io.ygdrasil.delaunator.voronoi
 
-import io.ygdrasil.delaunator.domain.IPoint
+import io.ygdrasil.delaunator.Point
 
 typealias Index = UInt
 typealias Vertices = List<VoronoiGraph.Node.Vertex>
@@ -12,7 +12,7 @@ data class VoronoiGraph internal constructor(
 ) {
     class Node internal constructor(
         val index: Index,
-        val origin: IPoint,
+        val origin: Point,
         neighboursProvider: NeighboursProvider,
         verticesProvider: VerticesProvider
     ) {
@@ -21,7 +21,7 @@ data class VoronoiGraph internal constructor(
 
         class Vertex internal constructor(
             val index: Index,
-            val position: IPoint,
+            val position: Point,
             neighboursNodesOfVertexProvider: NeighboursNodesOfVertexProvider,
             neighboursVerticesOfVertexProvider: NeighboursVerticesOfVertexProvider
         ) {
@@ -42,11 +42,11 @@ data class VoronoiGraph internal constructor(
 
     }
 
-    fun findNodeFromOrigin(origin: IPoint): Node? {
+    private fun findNodeFromOrigin(origin: Point): Node? {
         return nodes.find { it.origin == origin }
     }
 
-    fun getNodeFromOrigin(origin: IPoint): Node {
+    fun getNodeFromOrigin(origin: Point): Node {
         return findNodeFromOrigin(origin)
             ?: error("fail to find node from $origin")
     }

@@ -1,12 +1,42 @@
 package io.ygdrasil.delaunator
 
-import io.ygdrasil.delaunator.domain.*
+import kotlin.jvm.JvmInline
 import kotlin.math.*
 
+class Edge(val index: Int, val p: Point, val q: Point)
 
-fun <T : IPoint> List<T>.toDelaunator() = Delaunator(this)
+@JvmInline
+value class Point(private val value: DoubleArray) {
 
-class Delaunator<T : IPoint>(val points: List<T>) {
+    constructor(x: Double, y: Double) : this(doubleArrayOf(x, y))
+
+    val x: Double
+        get() = value[0]
+    val y: Double
+        get() = value[1]
+
+    operator fun minus(other: Point): Point {
+        return Point(x - other.x, y - other.y)
+    }
+
+    operator fun plus(other: Point): Point {
+        return Point(x + other.x, y + other.y)
+    }
+
+    operator fun div(other: Int): Point {
+        return Point(x / other, y / other)
+    }
+
+    override fun toString() = "{$x},{$y}"
+
+}
+
+fun List<Point>.toDelaunator() = Delaunator(this)
+
+class Delaunator(
+    val points: List<Point>
+) {
+
 
     private val EPSILON = 2.0.pow(-52.0)
     private val edgeStack = Array(512) { 0 }
@@ -503,8 +533,8 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         return dx * dx + dy * dy
     }
 
-    private fun createHull(points: List<T>): List<IEdge> {
-        return points.mapIndexed { index: Int, point: T ->
+    private fun createHull(points: List<Point>): List<Edge> {
+        return points.mapIndexed { index: Int, point: Point ->
             if (points.lastIndex == index) {
                 Edge(0, point, points.first())
             } else {
@@ -513,37 +543,20 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         }
     }
 
-    private fun getHullPoints(): List<T> {
+    private fun getHullPoints(): List<Point> {
         return hull.map { x -> points[x] }
     }
 
-    fun getHullEdges(): List<IEdge> {
+    fun getHullEdges(): List<Edge> {
         return createHull(getHullPoints())
     }
 
-    @Deprecated("use toGraph() instead ")
-    fun getVoronoiCells(): Sequence<VoronoiCell> {
-        return sequence {
-            val seen = HashSet<Int>()  // of point ids
-            for (triangleId in triangles.indices) {
-                val id = triangles[nextHalfedgeIndex(triangleId)]
-                if (!seen.contains(id)) {
-                    seen.add(id)
-                    val edges = edgesAroundPoint(triangleId)
-                    val triangles = edges.map { x -> triangleOfEdge(x) }
-                    val vertices = triangles.map { x -> getTriangleCenter(x) }
-                    yield(VoronoiCell(id, vertices.toList()))
-                }
-            }
-        }
-    }
-
-    fun getTriangleCenter(t: Int): IPoint {
+    fun getTriangleCenter(t: Int): Point {
         val vertices = getTrianglePoints(t)
         return getCentroid(vertices)
     }
 
-    private fun getCentroid(points: List<IPoint>): IPoint {
+    private fun getCentroid(points: List<Point>): Point {
 
         var accumulatedArea = 0.0
         var centerX = 0.0
@@ -564,7 +577,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
         )
     }
 
-    private fun getTrianglePoints(t: Int): List<IPoint> {
+    private fun getTrianglePoints(t: Int): List<Point> {
         return pointsOfTriangle(t).map { p -> points[p] }
     }
 
@@ -596,7 +609,7 @@ class Delaunator<T : IPoint>(val points: List<T>) {
     }
 
 
-    fun getEdges(): Sequence<IEdge> {
+    fun getEdges(): Sequence<Edge> {
         return sequence {
             for (e in triangles.indices) {
                 if (e > halfedges[e]) {

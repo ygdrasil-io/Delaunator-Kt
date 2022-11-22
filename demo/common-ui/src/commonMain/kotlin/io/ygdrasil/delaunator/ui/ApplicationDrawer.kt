@@ -1,6 +1,6 @@
 package io.ygdrasil.delaunator.ui
 
-import io.ygdrasil.delaunator.domain.IPoint
+import io.ygdrasil.delaunator.Point
 
 typealias Color = Array<Int>
 typealias CanvasSize = Pair<Int, Int>
@@ -85,7 +85,7 @@ class ApplicationDrawer(
             }
     }
 
-    private fun IPoint.rasterize(): Array<Double> = drawer.getCanvasSize()
+    private fun Point.rasterize(): Array<Double> = drawer.getCanvasSize()
         .toPixelDensity()
         .let { (xPixelDensity, yPixelDensity) ->
             arrayOf(x * xPixelDensity, y * yPixelDensity)

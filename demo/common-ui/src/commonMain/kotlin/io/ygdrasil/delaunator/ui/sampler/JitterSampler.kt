@@ -1,6 +1,6 @@
 package io.ygdrasil.delaunator.ui.sampler
 
-import io.ygdrasil.delaunator.domain.Point
+import io.ygdrasil.delaunator.Point
 import kotlin.random.Random
 
 object JitterSampler {

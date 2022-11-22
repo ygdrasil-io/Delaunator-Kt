@@ -1,4 +1,4 @@
-import io.ygdrasil.delaunator.domain.Point
+import io.ygdrasil.delaunator.Point
 import io.ygdrasil.delaunator.toDelaunator
 import io.ygdrasil.delaunator.voronoi.toVoronoiGraph
 

@@ -2,7 +2,7 @@ package io.ygdrasil.delaunator
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.ygdrasil.delaunator.domain.Point
+import io.ygdrasil.delaunator.Point
 import io.ygdrasil.delaunator.voronoi.voronoiGraphTest
 
 class DelaunatorTest : StringSpec({

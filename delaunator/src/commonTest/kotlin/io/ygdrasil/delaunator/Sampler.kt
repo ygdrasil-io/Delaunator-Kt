@@ -1,6 +1,6 @@
 package io.ygdrasil.delaunator
 
-import io.ygdrasil.delaunator.domain.Point
+import io.ygdrasil.delaunator.Point
 
 
 object Sampler {

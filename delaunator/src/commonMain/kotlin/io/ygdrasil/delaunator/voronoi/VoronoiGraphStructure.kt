@@ -1,15 +1,15 @@
 package io.ygdrasil.delaunator.voronoi
 
-import io.ygdrasil.delaunator.domain.IPoint
+import io.ygdrasil.delaunator.Point
 import kotlin.reflect.KProperty
 
 internal operator fun <E> List<E>.get(index: Index): E = this[index.toInt()]
 
 internal class VoronoiGraphStructure(
-    internal val origins: List<IPoint>,
+    internal val origins: List<Point>,
     internal val verticesByNode: List<List<Int>>,
     internal val neighboursNodesByNode: List<List<Int>>,
-    internal val verticesPosition: List<IPoint>,
+    internal val verticesPosition: List<Point>,
     internal val neighboursVertexByVertex: List<List<Int>>,
     internal val neighboursNodesByVertex: List<List<Int>>
 ) : NeighboursProvider {
