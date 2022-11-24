@@ -30,3 +30,4 @@ value class Point(private val value: DoubleArray) {
     operator fun component2(): Double = y
 
 }
+

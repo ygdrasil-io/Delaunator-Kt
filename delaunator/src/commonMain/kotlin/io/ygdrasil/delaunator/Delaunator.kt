@@ -8,7 +8,6 @@ class Delaunator(
     val points: List<Point>
 ) {
 
-
     private val EPSILON = 2.0.pow(-52.0)
     private val edgeStack = Array(512) { 0 }
 
