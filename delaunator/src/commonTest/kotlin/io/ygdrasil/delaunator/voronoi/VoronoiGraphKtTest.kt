@@ -5,8 +5,7 @@ import io.kotest.matchers.collections.*
 import io.ygdrasil.delaunator.Sampler
 import io.ygdrasil.delaunator.toDelaunator
 
-val voronoiGraphTest: StringSpec.() -> Unit = {
-
+class VoronoiGraphTest : StringSpec({
     val sample = Sampler.sample()
     val delaunator = sample.toDelaunator()
     val voronoiGraph = delaunator.toVoronoiGraph()
@@ -67,4 +66,4 @@ val voronoiGraphTest: StringSpec.() -> Unit = {
         }
 
     }
-}
+})
