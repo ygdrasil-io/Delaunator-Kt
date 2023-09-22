@@ -11,7 +11,6 @@ pluginManagement {
 include( "delaunator-kt")
 if (System.getenv("VERSION")?.isBlank() != false) {
     include( "common-ui", "jetpack-compose")
-    //include( "common-ui", "jetpack-compose", "korge")
 }
 
 

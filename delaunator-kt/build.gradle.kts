@@ -14,9 +14,6 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "17"
         }
-        testRuns["test"].executionTask.configure {
-            useJUnit()
-        }
     }
 
     js {
