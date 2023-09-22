@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.jvm)
+    kotlin("jvm")
 }
 
 repositories {
