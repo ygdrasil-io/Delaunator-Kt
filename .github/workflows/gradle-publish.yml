@@ -17,7 +17,7 @@ jobs:
       with:
         java-version: 17
     - name: Build and publish with Gradle
-      run: gradle build publish
+      run: ./gradlew build publish
       env:
         VERSION: ${{ github.event.release.tag_name }}
         USERNAME: ${{ secrets.GITLAB_USERNAME }}
