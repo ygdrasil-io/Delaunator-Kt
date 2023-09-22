@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm")
+    alias(libs.plugins.jvm)
 }
 
 repositories {
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation(rootProject)
+    api(project(":delaunator-kt"))
 }
 
 tasks.withType<KotlinCompile> {

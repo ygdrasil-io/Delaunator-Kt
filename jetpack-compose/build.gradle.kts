@@ -1,9 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("jvm")
+    alias(libs.plugins.jvm)
     alias(libs.plugins.compose)
 }
 
@@ -17,7 +16,6 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(project(":common-ui"))
-    implementation(rootProject)
 }
 
 tasks.withType<KotlinCompile> {
