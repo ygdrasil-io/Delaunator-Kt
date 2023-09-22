@@ -9,9 +9,9 @@ repositories {
 }
 
 dependencies {
-    implementation(rootProject)
+    api(project(":delaunator-kt"))
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 }
