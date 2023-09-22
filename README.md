@@ -35,9 +35,9 @@ Then add the required dependency regarding your project
 dependencies {
 
     // On MPP Project
-    implementation("io.ygdrasil:delaunator-kt:2022.07.01")
+    implementation("io.ygdrasil:delaunator-kt:2023.09.22")
     
     // On JS Project
-    implementation("io.ygdrasil:delaunator-kt-js:2022.07.01")
+    implementation("io.ygdrasil:delaunator-kt-js:2023.09.22")
 }
 ```
