@@ -1,5 +1,4 @@
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.multiplatform)
     id("maven-publish")
@@ -22,14 +21,17 @@ kotlin {
 
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "17"
         }
         testRuns["test"].executionTask.configure {
             useJUnit()
         }
     }
 
-    js(IR)
+    js {
+        browser()
+        nodejs()
+    }
     macosArm64()
     macosX64()
     linuxX64()

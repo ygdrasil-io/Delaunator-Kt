@@ -1,11 +1,11 @@
 [versions]
-kotlin = "1.7.20"
+kotlin = "1.9.10"
 korge = "3.3.0"
 benchmark = "0.4.4"
 delaunator = "2022.07.01"
 atomicfu = "0.18.3"
 datetime = "0.4.0"
-compose = "1.2.0"
+compose = "1.5.1"
 
 [plugins]
 korge = { id = "com.soywiz.korge", version.ref = "korge" }
